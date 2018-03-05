@@ -24,8 +24,9 @@ describe "Reservation class" do
   describe "length method" do
     it "calculates the number of nights for the hotel stay" do
       @reservation = Hotel::Reservation.new({start_date: "2015-07-20", end_date: "2015-07-25"})
-        @reservation.length.must_equal 5
-      end
+      @reservation.length.must_equal 5
+      @reservation.length.must_be_kind_of Integer
     end
-
   end
+
+end

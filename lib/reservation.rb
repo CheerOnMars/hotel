@@ -23,7 +23,7 @@ module Hotel
     end
 
     def length
-      (@end_date - @start_date) / 86400
+      ((@end_date - @start_date) / 86400).to_i
     end
 
   end
