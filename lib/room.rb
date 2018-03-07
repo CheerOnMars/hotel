@@ -4,8 +4,8 @@ module Hotel
     attr_reader :room, :cost
     COST = 200
 
-    def initialize(input)
-      @room = input
+    def initialize(room_num)
+      @room = room_num
     end
 
     def price
