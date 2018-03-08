@@ -2,7 +2,7 @@ require 'time'
 
 module Hotel
   class Reservation
-    attr_reader :checkin_date, :checkout_date
+    attr_reader :checkin_date, :checkout_date, :room_id
 
     def initialize(input)
 
@@ -25,7 +25,7 @@ module Hotel
 
     end
 
-    def length
+    def calc_duration
       ((@checkout_date - @checkin_date) / 86400).to_i
     end
 
