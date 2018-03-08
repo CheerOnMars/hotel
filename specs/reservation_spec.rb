@@ -21,11 +21,11 @@ describe "Reservation class" do
     end
   end
 
-  describe "length method" do
+  describe "calc_duration method" do
     it "calculates the number of nights for the hotel stay" do
       @reservation = Hotel::Reservation.new({checkin_date: "2015-07-20", checkout_date: "2015-07-25"})
-      @reservation.length.must_equal 5
-      @reservation.length.must_be_kind_of Integer
+      @reservation.calc_duration.must_equal 5
+      @reservation.calc_duration.must_be_kind_of Integer
     end
   end
 
