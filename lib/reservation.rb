@@ -2,43 +2,43 @@ require 'time'
 
 module Hotel
   class Reservation
-    attr_reader :start_date, :end_date
+    attr_reader :checkin_date, :checkout_date
 
     def initialize(input)
 
-      if input[:start_date] == nil || input[:end_date] == nil
+      if input[:checkin_date] == nil || input[:checkout_date] == nil
         raise ArgumentError.new("Date must be a date.")
       end
 
-      input[:start_date] = Time.parse(input[:start_date])
-      input[:end_date] = Time.parse(input[:end_date])
+      input[:checkin_date] = Time.parse(input[:checkin_date])
+      input[:checkout_date] = Time.parse(input[:checkout_date])
 
-      if input[:start_date] >= input[:end_date]
+      if input[:checkin_date] >= input[:checkout_date]
         raise ArgumentError.new("End date must be after start date.")
       end
 
       #add room_id ArgumentError if necessary
 
-      @start_date = input[:start_date]
-      @end_date = input[:end_date]
+      @checkin_date = input[:checkin_date]
+      @checkout_date = input[:checkout_date]
       @room_id = input[:room_id]
 
     end
 
     def length
-      ((@end_date - @start_date) / 86400).to_i
+      ((@checkout_date - @checkin_date) / 86400).to_i
     end
 
     # def puts_self
     #   puts Hotel::Reservation.new
     # end
 
-    def start_date
-      @start_date
+    def checkin_date
+      @checkin_date
     end
 
-    def end_date
-      @end_date
+    def checkout_date
+      @checkout_date
     end
 
     #.strftime("%m/%d/%Y")
