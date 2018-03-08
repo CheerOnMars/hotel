@@ -18,15 +18,6 @@ describe "HotelAdmin class" do
 
   end
 
-  describe "calculates reservation cost" do
-    it "calculates the cost of a given reservation" do
-      hotel_admin = Hotel::HotelAdmin.new
-      room = Hotel::Room.new("unit_name")
-      reservation = Hotel::Reservation.new({checkin_date: "2015-07-20", checkout_date: "2015-07-25", room_id: 1})
-      hotel_admin.calc_reservations(room, reservation).must_equal 1000
-    end
-  end
-
   describe "dates reservations method" do
 
     it "returns a list of reservations for a specific date" do
@@ -54,7 +45,13 @@ describe "HotelAdmin class" do
 
   end
 
-
-
+  describe "calculates reservation cost" do
+    it "calculates the cost of a given reservation" do
+      hotel_admin = Hotel::HotelAdmin.new
+      room = Hotel::Room.new("unit_name")
+      reservation = Hotel::Reservation.new({checkin_date: "2015-07-20", checkout_date: "2015-07-25", room_id: 1})
+      hotel_admin.calc_reservations(room, reservation).must_equal 1000
+    end
+  end
 
 end
