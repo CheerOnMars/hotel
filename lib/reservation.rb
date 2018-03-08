@@ -33,14 +33,17 @@ module Hotel
     #   puts Hotel::Reservation.new
     # end
 
-    def checkin_date
-      @checkin_date
-    end
-
-    def checkout_date
-      @checkout_date
-    end
-
+    # def checkin_date
+    #   @checkin_date
+    # end
+    #
+    # def checkout_date
+    #   @checkout_date
+    # end
+    #
+    # def room_id
+    #   @room_id
+    # end
     #.strftime("%m/%d/%Y")
 
     # def self.all
