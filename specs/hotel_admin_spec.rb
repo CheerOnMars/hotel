@@ -28,9 +28,6 @@ describe "HotelAdmin class" do
   end
 
   describe "dates reservations method" do
-    # before do
-    #   hotel_admin = Hotel::HotelAdmin.new
-    # end
 
     it "returns a list of reservations for a specific date" do
       hotel_admin = Hotel::HotelAdmin.new
@@ -44,12 +41,12 @@ describe "HotelAdmin class" do
       hotel_admin.access_reservations("2015-07-25").must_equal []
     end
 
-    # it "returns a list of rooms" do
-    #   hotel_admin = Hotel::HotelAdmin.new
-    #   hotel_admin.load_rooms
-    #   puts hotel_admin.rooms.length must_equal 20
-    #   #hotel_admin.rooms.length must_equal 20
-    # end
+    it "returns a list of rooms" do
+      hotel_admin = Hotel::HotelAdmin.new
+      hotel_admin.load_rooms
+      hotel_admin.rooms.must_be_kind_of Array
+      hotel_admin.rooms.wont_be_nil
+    end
 
     it "can reserve a room for a given date range" do
 
