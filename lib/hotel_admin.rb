@@ -17,8 +17,8 @@ module Hotel
         room = Room.new(n)
         #      @unit = unit
         room_arr << room
-        @rooms = room_arr
       end
+      @rooms = room_arr
       return @rooms #room_arr
     end
 
@@ -36,7 +36,9 @@ module Hotel
     def access_reservations(day)
       days_reservations = []
       @reservations.each do |reservation|
-        if day.between?(reservation.start_date.strftime("%Y-%m-%d"),reservation.end_date.strftime("%Y-%m-%d"))
+        checkin_date_loc = reservation.checkin_date.strftime("%Y-%m-%d")
+        checkout_date_loc = reservation.checkout_date.strftime("%Y-%m-%d")
+        if (checkin_date_loc...checkout_date_loc).include?(day)
 
           days_reservations << reservation
         end
@@ -44,11 +46,10 @@ module Hotel
       return days_reservations
     end
 
-
     # def load_reservations
     #   reservations_arr = []
     #   reservation = Hotel::Reservation.new
-    #   input[:start_date]
+    #   input[:checkout_date]
     #   input[:end_date]
     #   reservations_arr << reservation
     #   return reservations_arr
