@@ -12,25 +12,21 @@ module Hotel
     end
 
     def load_rooms
-      room_arr = []
+      rooms_arr = []
       [*1..20].each do |n|
         room = Room.new(n)
-        #      @unit = unit
-        room_arr << room
+        rooms_arr << room
       end
-      @rooms = room_arr
-      return @rooms #room_arr
+      @rooms = rooms_arr
+      return @rooms 
     end
 
     def add_reservation(reservation)
-      # new_reservation = (reservation)
-      # reservations_arr << new_reservation
       @reservations << reservation
-      #  @reservation = new_reservation
     end
 
     def calc_reservations(room, reservation)
-      room.price * reservation.length
+      room.price * reservation.calc_duration
     end
 
     def access_reservations(day)
