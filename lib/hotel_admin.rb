@@ -4,56 +4,34 @@ require_relative 'room'
 
 module Hotel
   class HotelAdmin
-    attr_reader  :rooms, :reservations, :unit, :reservation
+    attr_reader  :rooms, :reservations, :reservation
 
     def initialize
-      @rooms = []
+      @rooms = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
       @reservations = []
-    end
-
-    def load_rooms
-      rooms_arr = []
-      [*1..20].each do |n|
-        room = Room.new(n)
-        rooms_arr << room
-      end
-      @rooms = rooms_arr
-      return @rooms 
     end
 
     def add_reservation(reservation)
       @reservations << reservation
+      @reservation = reservation
+      return @reservation
     end
 
-    def calc_reservations(room, reservation)
-      room.price * reservation.calc_duration
+    def calc_reservations(reservation)
+      reservation.price_night * reservation.calc_duration
     end
 
     def access_reservations(day)
       days_reservations = []
       @reservations.each do |reservation|
-        checkin_date_loc = reservation.checkin_date.strftime("%Y-%m-%d")
-        checkout_date_loc = reservation.checkout_date.strftime("%Y-%m-%d")
-        if (checkin_date_loc...checkout_date_loc).include?(day)
-
+        checkin_date_local = reservation.checkin_date.strftime("%Y-%m-%d")
+        checkout_date_local = reservation.checkout_date.strftime("%Y-%m-%d")
+        if (checkin_date_local...checkout_date_local).include?(day)
           days_reservations << reservation
         end
       end
       return days_reservations
     end
-
-    # def load_reservations
-    #   reservations_arr = []
-    #   reservation = Hotel::Reservation.new
-    #   input[:checkout_date]
-    #   input[:end_date]
-    #   reservations_arr << reservation
-    #   return reservations_arr
-    # end
-
-    # def load_reservations
-    #
-    # end
 
   end
 end

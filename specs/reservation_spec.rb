@@ -3,8 +3,9 @@ require_relative 'spec_helper'
 describe "Reservation class" do
   describe "Initializer" do
     it "is an instance of Reservation" do
-      reservation = Hotel::Reservation.new({checkin_date: "2015-07-20", checkout_date: "2015-07-25"})
+      reservation = Hotel::Reservation.new({checkin_date: "2015-07-20", checkout_date: "2015-07-25", room_id: 1})
       reservation.must_be_kind_of Hotel::Reservation
+      reservation.class.must_equal Hotel::Reservation
     end
 
     it "throws an argument error for a bad start date" do

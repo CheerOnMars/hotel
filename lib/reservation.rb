@@ -17,41 +17,20 @@ module Hotel
         raise ArgumentError.new("End date must be after start date.")
       end
 
-      #add room_id ArgumentError if necessary
-
       @checkin_date = input[:checkin_date]
       @checkout_date = input[:checkout_date]
       @room_id = input[:room_id]
+      @price_night = 200
 
+    end
+
+    def price_night
+      @price_night
     end
 
     def calc_duration
       ((@checkout_date - @checkin_date) / 86400).to_i
     end
-
-    # def puts_self
-    #   puts Hotel::Reservation.new
-    # end
-
-    # def checkin_date
-    #   @checkin_date
-    # end
-    #
-    # def checkout_date
-    #   @checkout_date
-    # end
-    #
-    # def room_id
-    #   @room_id
-    # end
-    #.strftime("%m/%d/%Y")
-
-    # def self.all
-    #   reservations_arr = []
-    #   @reservation
-    #   reservations_arr << reservation
-    #   return reservations_arr
-    # end
 
   end
 end
