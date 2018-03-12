@@ -63,16 +63,20 @@ describe "HotelAdmin class" do
     end
   end
 
-  # describe "can reserve an available room for a given date range" do
-  #   it "" do
-  #     hotel_admin = Hotel::HotelAdmin.new
-  #     reservation_a = Hotel::Reservation.new({checkin_date: "2015-07-20", checkout_date: "2015-07-25", room_id: 1})
-  #     reservation_b = Hotel::Reservation.new({checkin_date: "2015-07-22", checkout_date: "2015-07-24", room_id: 2})
-  #     hotel_admin.add_reservation(reservation_a)
-  #     hotel_admin.add_reservation(reservation_b)
-  #     hotel_admin.reserve_available_room("2015-07-20", "2015-07-23").room_id.must_equal     3
-  #
-  #   end
-  # end
+  describe "can reserve an available room for a given date range" do
+    it "" do
+      hotel_admin = Hotel::HotelAdmin.new
+      reservation_a = Hotel::Reservation.new({checkin_date: "2015-07-20", checkout_date: "2015-07-25", room_id: 1})
+      reservation_b = Hotel::Reservation.new({checkin_date: "2015-07-22", checkout_date: "2015-07-24", room_id: 2})
+      hotel_admin.add_reservation(reservation_a)
+      hotel_admin.add_reservation(reservation_b)
+      new_res = hotel_admin.reserve_available_room("2015-07-20", "2015-07-23")
+      new_res.must_be_kind_of Hotel::Reservation
+      new_res.checkin_date.must_equal "2015-07-20"
+      new_res.checkout_date.must_equal "2015-07-23"
+      new_res.room_id.must_equal 3
+
+    end
+  end
 
 end
