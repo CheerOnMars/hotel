@@ -1,6 +1,5 @@
 require 'time'
 require_relative 'reservation'
-require_relative 'room'
 
 module Hotel
   class HotelAdmin
