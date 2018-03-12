@@ -10,9 +10,6 @@ module Hotel
         raise ArgumentError.new("Date must be a date.")
       end
 
-      # input[:checkin_date] = Time.parse(input[:checkin_date])
-      # input[:checkout_date] = Time.parse(input[:checkout_date])
-
       if input[:checkin_date] >= input[:checkout_date]
         raise ArgumentError.new("End date must be after start date.")
       end
@@ -29,7 +26,6 @@ module Hotel
     end
 
     def calc_duration
-      # ((@checkout_date - @checkin_date) / 86400).to_i
       ((checkin_date...checkout_date).map{ |date| date}).count
     end
 
