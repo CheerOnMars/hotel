@@ -13,7 +13,7 @@ module Hotel
     def add_reservation(reservation)
       #note: this is tightly coupled, I think.
       @reservations << reservation
-      @reservation = reservation
+    #  @reservation = reservation
       return @reservation
     end
 
