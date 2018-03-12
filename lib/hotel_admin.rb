@@ -3,7 +3,7 @@ require_relative 'reservation'
 
 module Hotel
   class HotelAdmin
-    attr_reader  :rooms, :reservations, :reservation, :block_start_date, :block_end_date, :room_amt, :blocks, :block
+    attr_reader  :rooms, :reservations, :reservation, :block_start_date, :block_end_date, :room_amt, :blocks, :block, :rooms_held
 
     def initialize
       @rooms = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
@@ -75,12 +75,48 @@ module Hotel
 
       @block_start_date = input[:block_start_date]
       @block_end_date = input[:block_end_date]
-      @room_num = input[:room_amt]
+      @room_amt = input[:room_amt]
       @blocks << input
       @block = input
+      @holds_reservations = []
+      @rooms_held = []
+      input[:room_amt].times do |i|
+        avail_room = view_available_rooms(input[:block_start_date], input[:block_end_date])[0]
+        new_res = add_reservation(Hotel::Reservation.new({checkin_date: input[:block_start_date], checkout_date:  input[:block_end_date], room_id: avail_room, status: "held"}))
+        @rooms_held  << avail_room
+        @holds_reservations << new_res
+      end
       return @block
     end
 
+    def return_blocks_rooms(input)
+      @rooms_held
+    end
+
+    def check_block_availability(input)
+      arr_available_held_rooms = []
+      @holds_reservations
+      #arr_available_held_rooms =
+      @holds_reservations.each do |res|
+        if res.status == "held"
+          arr_available_held_rooms << res
+        end
+      end
+      #puts arr_available_held_rooms
+      return arr_available_held_rooms
+
+    end
+
+    # 
+    # def reserve_room_in_block(input)
+    # puts puts
+    # print "reserve_room_in_block: "
+    #       @holds_reservations.each do |res|
+    #   puts check_block_availability(input)
+    #   puts
+    #   puts "End of reserve_room_in_block"
+    # puts puts
+    # end
 
   end
 end

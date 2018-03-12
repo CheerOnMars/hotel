@@ -108,14 +108,6 @@ describe "HotelAdmin class" do
       proc{ @hotel_admin.create_block({block_start_date: "2015-07-21", block_end_date: "2015-07-20", room_amt: 3 }) }.must_raise ArgumentError
     end
 
-    it "can create a block of rooms" do
-      block_new = @hotel_admin.create_block({block_start_date: "2015-07-26", block_end_date: "2015-07-29", room_amt: 4})
-      block_newb = @hotel_admin.create_block({block_start_date: "2015-07-20", block_end_date: "2015-07-25", room_amt: 3})
-      block_new.must_be_instance_of Hash
-      @hotel_admin.blocks.must_be_instance_of Array
-    end
-
-
     it "throws an argument error when there aren't enough rooms available" do
       @hotel_admin.add_reservation(Hotel::Reservation.new({checkin_date: "2015-07-20", checkout_date: "2015-07-25", room_id: 1}))
       @hotel_admin.add_reservation(Hotel::Reservation.new({checkin_date: "2015-07-20", checkout_date: "2015-07-25", room_id: 2}))
@@ -137,20 +129,50 @@ describe "HotelAdmin class" do
       proc{ @hotel_admin.create_block({block_start_date: "2015-07-23", block_end_date: "2015-07-29", room_amt: 5}) }.must_raise ArgumentError
     end
 
+    it "can create a block of rooms" do
+      block_new = @hotel_admin.create_block({block_start_date: "2015-07-26", block_end_date: "2015-07-29", room_amt: 4})
+      @hotel_admin.create_block({block_start_date: "2015-07-20", block_end_date: "2015-07-25", room_amt: 3})
+      block_new.must_be_instance_of Hash
+      block_new[:room_amt].must_be_instance_of Integer
+      block_new[:block_start_date].must_equal "2015-07-26"
+      @hotel_admin.blocks.must_be_instance_of Array
+      @hotel_admin.blocks.count.must_equal 2
+    end
 
-    #
-    # it "only includes rooms that are available for the given date range" do
-    #
-    # end
-    #
-    # it "excludes rooms in the block for reservations by general public" do
-    # end
-    #
-    # it "can check whether a given block has any rooms available" do
-    # end
-    #
+    it "excludes rooms in the block for reservations by general public" do
+      @hotel_admin.create_block({block_start_date: "2015-07-26", block_end_date: "2015-07-29", room_amt: 5})
+      new_res = @hotel_admin.reserve_available_room("2015-07-26", "2015-07-27")
+      new_res.room_id.must_equal 6
+    end
+
+    it "can check whether a given block has any rooms available" do
+      new_hold = @hotel_admin.create_block({block_start_date: "2015-07-26", block_end_date: "2015-07-29", room_amt: 5})
+       @hotel_admin.check_block_availability(new_hold).must_be_instance_of Array
+
+      # @hotel_admin.check_block_availability(new_hold).each do |status|
+      #   puts @hotel_admin.reservation.status
+      # end
+    end
+
     # it "can reserve a room from within a block of rooms" do
+    #   new_hold = @hotel_admin.create_block({block_start_date: "2015-07-26", block_end_date: "2015-07-29", room_amt: 5})
+    #   @hotel_admin.reserve_room_in_block(new_hold)
     # end
 
   end
+
+  describe "return_blocks_rooms method" do
+    before do
+      @hotel_admin = Hotel::HotelAdmin.new
+    end
+
+    it "only includes rooms that are available for the given date range" do
+      @hotel_admin.add_reservation(Hotel::Reservation.new({checkin_date: "2015-07-20", checkout_date: "2015-07-25", room_id: 1}))
+      @hotel_admin.add_reservation(Hotel::Reservation.new({checkin_date: "2015-07-20", checkout_date: "2015-07-25", room_id: 2}))
+      new_hold = @hotel_admin.create_block({block_start_date: "2015-07-23", block_end_date: "2015-07-29", room_amt: 5})
+      @hotel_admin.return_blocks_rooms(new_hold).count.must_equal 5
+      @hotel_admin.return_blocks_rooms(new_hold).must_equal [3, 4, 5, 6, 7]
+    end
+  end
+
 end
