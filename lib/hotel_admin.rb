@@ -25,8 +25,6 @@ module Hotel
     def access_reservations(day)
       days_reservations = []
       @reservations.each do |reservation|
-        # checkin_date_local = reservation.checkin_date.strftime("%Y-%m-%d")
-        # checkout_date_local = reservation.checkout_date.strftime("%Y-%m-%d")
         if (reservation.checkin_date...reservation.checkout_date).include?(day)
           days_reservations << reservation
         end
@@ -47,9 +45,10 @@ module Hotel
       return arr_available_rooms
     end
 
-    # def reserve_available_room(checkin_request, checkout_request)
-    #
-    # end
+    def reserve_available_room(checkin_request, checkout_request)
+      avail_room = view_available_rooms(checkin_request, checkout_request)[0]
+      add_reservation(Hotel::Reservation.new({checkin_date: checkin_request, checkout_date: checkout_request, room_id: avail_room}))
+    end
 
   end
 end
