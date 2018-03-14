@@ -2,7 +2,8 @@ require 'time'
 
 module Hotel
   class Reservation
-    attr_reader :checkin_date, :checkout_date, :room_id, :status, :price_night, :party_name
+    attr_reader :checkin_date, :checkout_date, :room_id, :price_night, :party_name
+    attr_accessor :status
 
     def initialize(input)
 
@@ -20,6 +21,10 @@ module Hotel
       @price_night = 200
       @status = input[:status]
       @party_name = input[:group_name]
+    end
+
+    def status
+      return @status
     end
 
     def calc_duration
