@@ -3,12 +3,15 @@ require_relative 'reservation'
 
 module Hotel
   class HotelAdmin
-    attr_reader  :rooms, :reservations, :reservation, :block_start_date, :block_end_date, :room_amt, :blocks, :block, :rooms_held
+    attr_reader  :rooms, :reservations, :reservation, :block_start_date, :block_end_date, :room_amt, :blocks, :block, :rooms_held, :block_name
+    attr_accessor :status
 
     def initialize
       @rooms = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
       @reservations = []
       @blocks = []
+      @holds_reservations = []
+      @rooms_held = []
     end
 
     def add_reservation(reservation)
@@ -50,7 +53,6 @@ module Hotel
       add_reservation(Hotel::Reservation.new({checkin_date: checkin_request, checkout_date: checkout_request, room_id: avail_room}))
     end
 
-
     def create_block(input)
 
       if input[:block_start_date] == nil || input[:block_end_date] == nil
@@ -72,17 +74,15 @@ module Hotel
       if input[:room_amt] > view_available_rooms(input[:block_start_date], input[:block_end_date]).count
         raise ArgumentError.new("There are not enough rooms available during that time.")
       end
-
       @block_start_date = input[:block_start_date]
       @block_end_date = input[:block_end_date]
       @room_amt = input[:room_amt]
+      @block_name = input[:group_name]
       @blocks << input
       @block = input
-      @holds_reservations = []
-      @rooms_held = []
       input[:room_amt].times do |i|
         avail_room = view_available_rooms(input[:block_start_date], input[:block_end_date])[0]
-        new_res = add_reservation(Hotel::Reservation.new({checkin_date: input[:block_start_date], checkout_date:  input[:block_end_date], room_id: avail_room, status: "held"}))
+        new_res = add_reservation(Hotel::Reservation.new({checkin_date: input[:block_start_date], checkout_date:  input[:block_end_date], room_id: avail_room, status: "held", group_name: input[:group_name]}))
         @rooms_held  << avail_room
         @holds_reservations << new_res
       end
@@ -93,30 +93,24 @@ module Hotel
       @rooms_held
     end
 
-    def check_block_availability(input)
+    def return_held_reservations
+      @holds_reservations
+    end
+
+    def check_block_availability(group_name)
       arr_available_held_rooms = []
       @holds_reservations
-      #arr_available_held_rooms =
       @holds_reservations.each do |res|
-        if res.status == "held"
+        if res.status == "held" && res.party_name == group_name
           arr_available_held_rooms << res
         end
       end
-      #puts arr_available_held_rooms
       return arr_available_held_rooms
-
     end
 
-    # 
-    # def reserve_room_in_block(input)
-    # puts puts
-    # print "reserve_room_in_block: "
-    #       @holds_reservations.each do |res|
-    #   puts check_block_availability(input)
-    #   puts
-    #   puts "End of reserve_room_in_block"
-    # puts puts
-    # end
-
+    def reserve_room_in_block(group_name)
+      block_res = check_block_availability(group_name)[0]
+      block_res.status = "booked"
+    end
   end
 end

@@ -146,18 +146,18 @@ describe "HotelAdmin class" do
     end
 
     it "can check whether a given block has any rooms available" do
-      new_hold = @hotel_admin.create_block({block_start_date: "2015-07-26", block_end_date: "2015-07-29", room_amt: 5})
-       @hotel_admin.check_block_availability(new_hold).must_be_instance_of Array
-
-      # @hotel_admin.check_block_availability(new_hold).each do |status|
-      #   puts @hotel_admin.reservation.status
-      # end
+      @hotel_admin.create_block({block_start_date: "2015-09-20", block_end_date: "2015-09-25", room_amt: 4, group_name: "Prince"})
+      @hotel_admin.check_block_availability("Prince").must_be_instance_of Array
+      @hotel_admin.check_block_availability("Prince").length.must_equal 4
     end
 
-    # it "can reserve a room from within a block of rooms" do
-    #   new_hold = @hotel_admin.create_block({block_start_date: "2015-07-26", block_end_date: "2015-07-29", room_amt: 5})
-    #   @hotel_admin.reserve_room_in_block(new_hold)
-    # end
+    it "can reserve a room from within a block of rooms" do
+      new_hold = @hotel_admin.create_block({block_start_date: "2015-07-26", block_end_date: "2015-07-29", room_amt: 5, group_name: "Bowie"})
+      block_res = @hotel_admin.reserve_room_in_block("Bowie")
+      puts "XXXXXXXXXxxxxxxxxxx block_res xxxxxxxxxxXXXXXXXXX"
+      block_res.class.must_be_kind_of Hotel::Reservation
+      block_res.status.must_equal "booked"
+    end
 
   end
 
